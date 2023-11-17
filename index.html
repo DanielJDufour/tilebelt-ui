@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="https://unpkg.com/reproject-bbox"></script>
     <script>
       const tilebelt = {};
       window.module = tilebelt;
@@ -23,6 +24,11 @@
       <input type="text" id="z">  
     </div>
 
+    <div>
+      <label for="epsg-code">epsg code</label>
+      <input type="text" id="epsg-code">  
+    </div>
+
     <div id="result"></div>
 
     <script>
@@ -31,10 +37,15 @@
         const x = Number(document.getElementById("x").value);
         const y = Number(document.getElementById("y").value);
         const z = Number(document.getElementById("z").value);
+        const code = Number(document.getElementById("epsg-code").value);
 
-        const result = JSON.stringify(tilebelt.exports.tileToBBOX([z, x, y]), undefined, 2);
+        let bbox = tilebelt.exports.tileToBBOX([z, x, y]);
 
-        document.getElementById("result").textContent = result;
+        if (document.getElementById("epsg-code").value) {
+          bbox = reprojectBoundingBox({ bbox, from: 4326, to: 3857 }); 
+        }
+        
+        document.getElementById("result").textContent = JSON.stringify(bbox, undefined, 2);
       }
 
       Array.from(document.querySelectorAll("input")).forEach(el => {
