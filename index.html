@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      const tilebelt = {};
+      window.module = tilebelt;
+    </script>
+    <script src="https://unpkg.com/@mapbox/tilebelt" type="module"></script>
+  </head>
+  <body>
+    <div>
+      <label for="x">x</label>
+      <input type="text" id="x">  
+    </div>
+
+    <div>
+      <label for="y">y</label>
+      <input type="text" id="y">  
+    </div>
+
+    <div>
+      <label for="z">z</label>
+      <input type="text" id="z">  
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+      function render() {
+        console.log("rendering");
+        const x = Number(document.getElementById("x").value);
+        const y = Number(document.getElementById("y").value);
+        const z = Number(document.getElementById("z").value);
+
+        const result = JSON.stringify(tilebelt.exports.tileToBBOX([z, x, y]), undefined, 2);
+
+        document.getElementById("result").textContent = result;
+      }
+
+      Array.from(document.querySelectorAll("input")).forEach(el => {
+        el.addEventListener("input", render);
+      });
+    </script>
+  </body>
+</html>
