@@ -39,7 +39,7 @@
         const z = Number(document.getElementById("z").value);
         const code = Number(document.getElementById("epsg-code").value);
 
-        let bbox = tilebelt.exports.tileToBBOX([z, x, y]);
+        let bbox = tilebelt.exports.tileToBBOX([x, y, z]);
 
         if (document.getElementById("epsg-code").value) {
           bbox = reprojectBoundingBox({ bbox, from: 4326, to: 3857 }); 
